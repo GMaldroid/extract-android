@@ -1,0 +1,12 @@
+# dir
+__pycache__/
+.vscode/
+new_train_11k/
+decompile_folder/
+Extract/csv/Agv3700/AvgSim/
+Extract/csv/Avg12000/AvgSim/
+Extract/csv/use500api/12k/AvgSim/
+
+# file
+data_extract_prev*.json
+extract_data_500_api.json
