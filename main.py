@@ -1,8 +1,10 @@
 from pickle import load
 import re
+import pandas as pd
 import numpy as np
 from Lib.library import *
 from Lib.AvgSim import AvgSim
+from Lib.Path import Path
 import json
 from Lib.AndroidDetection import AndroidDetection
 
@@ -33,44 +35,50 @@ def create_base_matrix():
     save_int_csv("Extract/csv/use500api/12k/method.csv", method(data, api_dataset))
 
 def create_avgsim():
-    app_api = load_int_csv("Extract/csv/use500api/12k/app_api.csv")
-    invoke = load_int_csv("Extract/csv/use500api/12k/invoke.csv")
-    package = load_int_csv("Extract/csv/use500api/12k/package.csv")
-    method = load_int_csv("Extract/csv/use500api/12k/method.csv")
-    agvSim = AvgSim(app_api, invoke, package, method)
+    base_dir = 'Extract/csv/3000app/'
+    app_api = pd.read_csv(base_dir + "app_api.csv", index_col=0, header=0)
+    app_api = app_api.loc[:, app_api.columns != "Label"]
+    app_api = app_api.to_numpy()
+    invoke = pd.read_csv(base_dir + "invoke.csv", index_col=0, header=0).to_numpy()
+    package = pd.read_csv(base_dir + "package.csv", index_col=0, header=0).to_numpy()
+    method = pd.read_csv(base_dir + "method_pd.csv", index_col=0, header=0).to_numpy()
+
+    agvSim = Path(app_api, invoke, package, method)
+
+    save_folder = base_dir + "path"
 
     print("m1")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m1.csv", agvSim.meta_path_1())
+    save_int_csv(f"{save_folder}/m1.csv", agvSim.meta_path_1())
     print("m2")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m2.csv", agvSim.meta_path_2())
+    save_int_csv(f"{save_folder}/m2.csv", agvSim.meta_path_2())
     print("m3")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m3.csv", agvSim.meta_path_3())
+    save_int_csv(f"{save_folder}/m3.csv", agvSim.meta_path_3())
     print("m4")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m4.csv", agvSim.meta_path_4())
+    save_int_csv(f"{save_folder}/m4.csv", agvSim.meta_path_4())
     print("m5")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m5.csv", agvSim.meta_path_5())
+    save_int_csv(f"{save_folder}/m5.csv", agvSim.meta_path_5())
     print("m6")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m6.csv", agvSim.meta_path_6())
+    save_int_csv(f"{save_folder}/m6.csv", agvSim.meta_path_6())
     print("m7")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m7.csv", agvSim.meta_path_7())
+    save_int_csv(f"{save_folder}/m7.csv", agvSim.meta_path_7())
     print("m8")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m8.csv", agvSim.meta_path_8())
+    save_int_csv(f"{save_folder}/m8.csv", agvSim.meta_path_8())
     print("m9")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m9.csv", agvSim.meta_path_9())
+    save_int_csv(f"{save_folder}/m9.csv", agvSim.meta_path_9())
     print("m10")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m10.csv", agvSim.meta_path_10())
+    save_int_csv(f"{save_folder}/m10.csv", agvSim.meta_path_10())
     print("m11")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m11.csv", agvSim.meta_path_11())
+    save_int_csv(f"{save_folder}/m11.csv", agvSim.meta_path_11())
     print("m12")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m12.csv", agvSim.meta_path_12())
+    save_int_csv(f"{save_folder}/m12.csv", agvSim.meta_path_12())
     print("m13")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m13.csv", agvSim.meta_path_13())
+    save_int_csv(f"{save_folder}/m13.csv", agvSim.meta_path_13())
     print("m14")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m14.csv", agvSim.meta_path_14())
+    save_int_csv(f"{save_folder}/m14.csv", agvSim.meta_path_14())
     print("m15")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m15.csv", agvSim.meta_path_15())
+    save_int_csv(f"{save_folder}/m15.csv", agvSim.meta_path_15())
     print("m16")
-    save_float_csv("Extract/csv/use500api/12k/AvgSim/m16.csv", agvSim.meta_path_16())
+    save_int_csv(f"{save_folder}/m16.csv", agvSim.meta_path_16())
     
 def feature_vector():
     paths = [
@@ -191,6 +199,6 @@ def to_pkl():
     save_pkl("Extract/pkl/use500api/12k/package.pkl", package)
     save_pkl("Extract/pkl/use500api/12k/method.pkl", method)
 
+
 if __name__ == "__main__":
-    app_api = load_int_csv("Extract/csv/use500api/12k/app_api.csv")
-    save_pkl("Extract/pkl/use500api/12k/app_api.pkl", app_api)
+    create_avgsim()
