@@ -35,7 +35,7 @@ def create_base_matrix():
     save_int_csv("Extract/csv/use500api/12k/method.csv", method(data, api_dataset))
 
 def create_avgsim():
-    base_dir = 'Extract/csv/3000app/'
+    base_dir = 'Extract/csv/5000app/'
     app_api = pd.read_csv(base_dir + "app_api.csv", index_col=0, header=0)
     app_api = app_api.loc[:, app_api.columns != "Label"]
     app_api = app_api.to_numpy()
@@ -55,6 +55,7 @@ def create_avgsim():
     save_int_csv(f"{save_folder}/m3.csv", agvSim.meta_path_3())
     print("m4")
     save_int_csv(f"{save_folder}/m4.csv", agvSim.meta_path_4())
+    return
     print("m5")
     save_int_csv(f"{save_folder}/m5.csv", agvSim.meta_path_5())
     print("m6")
@@ -80,6 +81,34 @@ def create_avgsim():
     print("m16")
     save_int_csv(f"{save_folder}/m16.csv", agvSim.meta_path_16())
     
+def create_diminutive():
+    base_dir = 'Extract/csv/5000app/'
+    app_api = pd.read_csv(base_dir + "app_api.csv", index_col=0, header=0)
+    app_api = app_api.loc[:, app_api.columns != "Label"]
+    app_api = app_api.to_numpy()
+    invoke = pd.read_csv(base_dir + "invoke.csv", index_col=0, header=0).to_numpy()
+    package = pd.read_csv(base_dir + "package.csv", index_col=0, header=0).to_numpy()
+    method = pd.read_csv(base_dir + "method_pd.csv", index_col=0, header=0).to_numpy()
+
+    save_folder = base_dir + "path"
+
+    print("diminutive_1")
+    diminutive_1 = app_api.T
+    save_int_csv(f"{save_folder}/diminutive_m1.csv", diminutive_1)
+
+    print("diminutive 2")
+    diminutive_2 = method @ app_api.T
+    save_int_csv(f"{save_folder}/diminutive_m2.csv", diminutive_2)
+
+    print("diminutive 3")
+    diminutive_3 = package @ app_api.T
+    save_int_csv(f"{save_folder}/diminutive_m3.csv", diminutive_3)
+
+    print("diminutive 4")
+    diminutive_4 = invoke @ app_api.T
+    save_int_csv(f"{save_folder}/diminutive_m4.csv", diminutive_4)
+    ...
+
 def feature_vector():
     paths = [
         './Extract/csv/use500api/12k/AvgSim/m1.csv',
@@ -201,4 +230,4 @@ def to_pkl():
 
 
 if __name__ == "__main__":
-    create_avgsim()
+    create_diminutive()
